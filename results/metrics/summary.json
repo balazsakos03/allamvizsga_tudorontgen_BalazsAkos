@@ -1,0 +1,8 @@
+{
+  "classes": [
+    "NORMAL",
+    "PNEUMONIA"
+  ],
+  "final_val_acc": 0.75,
+  "final_val_loss": 0.4828327000141144
+}
