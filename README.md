@@ -1,1 +1,30 @@
-# allamvizsga_tudorontgen_BalazsAkos
+# 🩻 Tüdőröntgen felvételek osztályozása mély tanulású neurális hálózatokkal
+
+Ez a repository a szakdolgozatom megvalósítását tartalmazza:  
+**„Tüdőröntgen felvételek diagnosztikai célú osztályozása mély tanulású neurális hálózatokkal”**  
+
+## 📌 Projekt leírása
+A projekt célja, hogy mélytanulási neurális hálózatok segítségével tüdőröntgen felvételeket automatikusan osztályozzon.  
+Az orvosi képalkotás területén naponta keletkező hatalmas adatmennyiség feldolgozását és előszűrését támogatja, így segítve az orvosok munkáját a korai felismerésben és diagnózisban.  
+
+## 📂 Mappastruktúra
+├── data/ # Adatkészlet (nincs feltöltve, csak a struktúra)
+│ └── data.yaml # Dataset konfigurációs fájlja
+├── models/ # Modell architektúrák és szkriptek
+├── results/ # Tanítás eredményei (checkpointok, ábrák, metrikák)
+├── notebooks/ # Google Colab notebookok
+├── .gitignore
+├── requirements.txt
+└── README.md
+
+
+## 🛠️ Felhasznált technológiák
+- Python 3.10+  
+- TensorFlow / Keras  
+- PyTorch  
+- NumPy, OpenCV, Matplotlib  
+- Google Colab + Kaggle API  
+
+## 👨‍💻 Szerző
+- **Balázs Ákos**  
+Szakdolgozat – 2025
