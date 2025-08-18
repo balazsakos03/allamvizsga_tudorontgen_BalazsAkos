@@ -1,0 +1,21 @@
+# adat és modellek kizárása
+data/
+results/checkpoints/
+*.h5
+*.pt
+*.pth
+*.ckpt
+
+# cache és ideiglenes fájlok
+__pycache__/
+*.pyc
+*.pyo
+*.tmp
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+*.ipynb_save
+
+# rendszer fájlok
+.DS_Store
+Thumbs.db
