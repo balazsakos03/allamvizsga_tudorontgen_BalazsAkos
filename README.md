@@ -10,12 +10,10 @@ Az orvosi képalkotás területén naponta keletkező hatalmas adatmennyiség fe
 ## 📂 Mappastruktúra
 ```
 ├── data/ # Adatkészlet (nincs feltöltve, csak a struktúra)
-│ └── data.yaml # Dataset konfigurációs fájlja
-├── models/ # Modell architektúrák és szkriptek
-├── results/ # Tanítás eredményei (checkpointok, ábrák, metrikák)
 ├── notebooks/ # Google Colab notebookok
+├── results/ # Tanítás eredményei (checkpointok, ábrák, metrikák)
+├── src/ # Forráskód (modell, tanítási szkriptek)
 ├── .gitignore
-├── requirements.txt
 └── README.md
 ```
 
