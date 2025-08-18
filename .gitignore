@@ -1,10 +1,15 @@
 # adat és modellek kizárása
-data/
+data/*
+!data/.gitkeep
+
 results/checkpoints/
-*.h5
-*.pt
-*.pth
-*.ckpt
+results/*.h5
+results/*.pt
+results/*.pth
+results/*.ckpt
+results/*.keras
+results/*
+!results/.gitkeep
 
 # cache és ideiglenes fájlok
 __pycache__/
