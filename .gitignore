@@ -2,14 +2,13 @@
 data/*
 !data/.gitkeep
 
+# results - csak a nagy modellek kizárva
 results/checkpoints/
 results/*.h5
 results/*.pt
 results/*.pth
 results/*.ckpt
 results/*.keras
-results/*
-!results/.gitkeep
 
 # cache és ideiglenes fájlok
 __pycache__/
