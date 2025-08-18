@@ -4,7 +4,7 @@ Ez a repository a szakdolgozatom megvalósítását tartalmazza:
 **„Tüdőröntgen felvételek diagnosztikai célú osztályozása mély tanulású neurális hálózatokkal”**  
 
 ## 📌 Projekt leírása
-A projekt célja, hogy mélytanulási neurális hálózatok segítségével tüdőröntgen felvételeket automatikusan osztályozzon.  
+A projekt célja, hogy mélytanulási neurális hálózatok segítségével tüdőröntgen felvételeket automatikusan osztályozni tudjunk. 
 Az orvosi képalkotás területén naponta keletkező hatalmas adatmennyiség feldolgozását és előszűrését támogatja, így segítve az orvosok munkáját a korai felismerésben és diagnózisban.  
 
 ## 📂 Mappastruktúra
