@@ -1,25 +1,36 @@
-# adat és modellek kizárása
+# =========================
+# Data (Kaggle external)
+# =========================
 data/*
-!data/.gitkeep
+!data/README.md
 
-# results - csak a nagy modellek kizárva
-results/checkpoints/
-results/*.h5
-results/*.pt
-results/*.pth
-results/*.ckpt
-results/*.keras
+# =========================
+# Results
+# =========================
+results/models/
+results/**/*.h5
+results/**/*.pt
+results/**/*.pth
+results/**/*.ckpt
+results/**/*.keras
 
-# cache és ideiglenes fájlok
+# =========================
+# Python cache
+# =========================
 __pycache__/
 *.pyc
 *.pyo
 *.tmp
 
-# Jupyter / Colab
+# =========================
+# Jupyter / Kaggle
+# =========================
 .ipynb_checkpoints/
 *.ipynb_save
 
-# rendszer fájlok
+# =========================
+# System files
+# =========================
 .DS_Store
 Thumbs.db
+
