@@ -5,6 +5,11 @@ data/*
 !data/README.md
 
 # =========================
+# Downloaded weight files
+# =========================
+downloaded_weights/
+
+# =========================
 # Results
 # =========================
 results/models/
