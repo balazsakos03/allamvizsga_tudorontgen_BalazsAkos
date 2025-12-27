@@ -28,12 +28,14 @@ Az egyes kísérletek és eredmények részletes leírása a
 ---
 
 ## 📂 Repository felépítése
+```
 ├── data/ # Felhasznált adatkészletek dokumentációja
 ├── notebooks/ # Tanítási és kiértékelési notebookok
 ├── results/ # Modellek eredményei, metrikák és grafikonok
 ├── src/ # Közös forráskód (modellek, segédfüggvények)
 ├── .gitignore
 └── README.md
+```
 
 
 - Az adatkészletek **nem kerülnek feltöltésre**, csak dokumentálásra  
