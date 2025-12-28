@@ -119,3 +119,11 @@ A vizualizációk:
 - segítenek azonosítani a tipikus tévesztési eseteket.
 
 A kapcsolódó ábrák a `results/figures/` mappában találhatók.
+
+### Grad-CAM (magyarázhatóság)
+A modellek döntéseinek értelmezhetősége érdekében **Grad-CAM** (Gradient-weighted Class Activation Mapping)
+vizualizációkat is készítettem, amelyek megmutatják, hogy az osztályozás során a hálózat mely képrégiókra fókuszált.
+
+A Grad-CAM overlay képek a következő mappákban találhatók:
+- `results/figures/02_transfer_learning_resnet/gradcam_resnet50/`
+- `results/figures/03_transfer_learning_densenet/gradcam_densenet121/`
