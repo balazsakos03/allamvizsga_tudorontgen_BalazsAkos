@@ -94,36 +94,63 @@ A confusion matrix alapján a DenseNet121:
 
 ---
 
-## 📈 Modellek összehasonlítása
+## 4️⃣ Transfer Learning alapú modell – EfficientNetB0
 
-| Modell       | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
-|-------------|----------|---------|---------------|------------------|
-| ResNet50    | 86.54%   | 0.943   | 72.65%        | 94.87%           |
-| DenseNet121 | 89.74%   | 0.965   | 84.19%        | 93.08%           |
+**Notebook:**  
+`notebooks/04_transfer_learning_efficientnetb0.ipynb`
 
-### Értelmezés
-- A **DenseNet121** modell összességében **jobb általános teljesítményt** mutat.
-- A **ResNet50** erőssége a pneumonia esetek nagyon magas recall értéke.
-- A DenseNet kiegyensúlyozottabb döntéshozatala különösen előnyös lehet  
-  olyan környezetben, ahol a téves riasztások csökkentése is fontos szempont.
+### Modell leírása
+A negyedik kísérlet az **EfficientNetB0 architektúrát** alkalmazza,  
+amely a számítási hatékonyságot és a teljesítményt együttesen optimalizáló  
+**compound scaling** megközelítésre épül.
+
+A modell:
+- ImageNet-en előtanított súlyokat használ,
+- EfficientNet-specifikus előfeldolgozást alkalmaz,
+- kétfázisú tanítással került optimalizálásra.
+
+### Kvantitatív eredmények (teszt halmaz)
+- **Accuracy:** 87.34%
+- **ROC–AUC:** 0.952
+- **PNEUMONIA recall:** 94.10%
+- **NORMAL recall:** 76.07%
+
+Az eredmények alapján az EfficientNetB0:
+- stabil teljesítményt nyújt mindkét osztály esetén,
+- jobb általános pontosságot ér el, mint a ResNet50,
+- ugyanakkor kevésbé kiegyensúlyozott, mint a DenseNet121.
 
 ---
 
-## 🔍 Kvalitatív kiértékelés
-A kvantitatív metrikák mellett mindkét modell esetében  
-**vizuális elemzés is készült** a teszt halmaz képein.
+## 📈 Modellek összehasonlítása
 
-A vizualizációk:
-- helyes és hibás predikciókat egyaránt bemutatnak,
-- lehetőséget adnak a modellek döntéseinek értelmezésére,
-- segítenek azonosítani a tipikus tévesztési eseteket.
+| Modell         | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
+|----------------|----------|---------|---------------|------------------|
+| ResNet50       | 86.54%   | 0.943   | 72.65%        | 94.87%           |
+| DenseNet121    | 89.74%   | 0.965   | 84.19%        | 93.08%           |
+| EfficientNetB0 | 87.34%   | 0.952   | 76.07%        | 94.10%           |
 
-A kapcsolódó ábrák a `results/figures/` mappában találhatók.
+### Értelmezés
+- A **DenseNet121** mutatja a **legkiegyensúlyozottabb teljesítményt**.
+- A **ResNet50** és **EfficientNetB0** különösen erősek a pneumonia felismerésében.
+- Az EfficientNetB0 kedvező kompromisszum a teljesítmény és a modellkomplexitás között.
+
+---
+
+## 🔍 Kvalitatív kiértékelés és magyarázhatóság
+
+A kvantitatív metrikák mellett mindhárom Transfer Learning modell esetében  
+**vizuális és kvalitatív elemzés is készült** a teszt halmaz képein.
 
 ### Grad-CAM (magyarázhatóság)
-A modellek döntéseinek értelmezhetősége érdekében **Grad-CAM** (Gradient-weighted Class Activation Mapping)
-vizualizációkat is készítettem, amelyek megmutatják, hogy az osztályozás során a hálózat mely képrégiókra fókuszált.
+A **Grad-CAM (Gradient-weighted Class Activation Mapping)** módszer segítségével  
+vizualizáltam, hogy a modellek döntéshozatala során mely képrégiók járultak hozzá  
+leginkább az osztályozási eredményekhez.
 
-A Grad-CAM overlay képek a következő mappákban találhatók:
+A Grad-CAM overlay képek az alábbi mappákban találhatók:
 - `results/figures/02_transfer_learning_resnet/gradcam_resnet50/`
 - `results/figures/03_transfer_learning_densenet/gradcam_densenet121/`
+- `results/figures/04_transfer_learning_efficientnetb0/gradcam_efficientnetb0/`
+
+A vizualizációk segítik a modellek döntéseinek értelmezését,  
+valamint rávilágítanak az esetleges tévesztések mögötti mintázatokra.
