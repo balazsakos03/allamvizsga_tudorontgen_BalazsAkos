@@ -1,0 +1,47 @@
+{
+  "model": "DenseNet121_transfer",
+  "img_size": [
+    224,
+    224
+  ],
+  "batch_size": 32,
+  "epochs_total": 12,
+  "roc_auc": 0.9647819417050186,
+  "confusion_matrix": [
+    [
+      197,
+      37
+    ],
+    [
+      27,
+      363
+    ]
+  ],
+  "classification_report": {
+    "NORMAL": {
+      "precision": 0.8794642857142857,
+      "recall": 0.8418803418803419,
+      "f1-score": 0.8602620087336245,
+      "support": 234
+    },
+    "PNEUMONIA": {
+      "precision": 0.9075,
+      "recall": 0.9307692307692308,
+      "f1-score": 0.9189873417721519,
+      "support": 390
+    },
+    "accuracy": 0.8974358974358975,
+    "macro avg": {
+      "precision": 0.8934821428571429,
+      "recall": 0.8863247863247863,
+      "f1-score": 0.8896246752528882,
+      "support": 624
+    },
+    "weighted avg": {
+      "precision": 0.8969866071428572,
+      "recall": 0.8974358974358975,
+      "f1-score": 0.8969653418827042,
+      "support": 624
+    }
+  }
+}
