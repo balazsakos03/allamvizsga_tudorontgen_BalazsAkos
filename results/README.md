@@ -162,7 +162,7 @@ A confusion matrix alapján megfigyelhető, hogy a MobileNetV2:
 | ResNet50       | 86.54%   | 0.943   | 72.65%        | 94.87%           |
 | DenseNet121    | 89.74%   | 0.965   | 84.19%        | 93.08%           |
 | EfficientNetB0 | 87.34%   | 0.952   | 76.07%        | 94.10%           |
-| MobileNetV2    | 90.38%   | 0.964   | 89.32%        | 91.03%           |
+|**MobileNetV2** |**90.38%**|**0.964**|**89.32%**     | **91.03%**       |
 
 ### Értelmezés
 - A **MobileNetV2** a legmagasabb **overall accuracy** értéket érte el,
