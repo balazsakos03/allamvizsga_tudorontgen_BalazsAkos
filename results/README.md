@@ -155,6 +155,81 @@ A confusion matrix alapján megfigyelhető, hogy a MobileNetV2:
 
 ---
 
+## 6️⃣ Transfer Learning alapú modell – VGG16
+
+**Notebook:**
+`notebooks/06_transfer_learning_vgg16.ipynb`
+
+### Modell leírása
+A hatodik kísérlet a **VGG16 architektúrát** alkalmazza, amely egy klasszikus, mély konvolúciós neurális hálózat.
+
+A VGG16:
+- egymásra épülő 3×3 konvolúciós rétegeket használ,
+- nem tartalmaz residual vagy dense összeköttetéseket,
+- jelentősen nagyobb paraméterszámmal rendelkezik, mint a modern, optimalizált architektúrák.
+
+A tanítás során:
+- ImageNet-en előtanított súlyokat használtam,
+- VGG-specifikus előfeldolgozást alkalmaztam,
+- kétfázisú tanítást végeztem (fagyasztás + fine-tuning),
+- osztályegyensúly kezelést alkalmaztam.
+
+### Kvantitatív eredmények (teszt halmaz, threshold = 0.5)
+
+- **Accuracy:** 88.62%
+- **ROC–AUC:** 0.9726
+- **PNEUMONIA recall:** 98.72%
+- **NORMAL recall:** 71.79%
+
+A confusion matrix alapján megfigyelhető, hogy a modell:
+- rendkívül magas pneumonia felismerési arányt ér el,
+- ugyanakkor jelentős számú egészséges esetet sorol tévesen beteg kategóriába.
+
+### Megjegyzés
+
+A VGG16 kiemelkedően magas ROC–AUC értéket produkált, ami azt jelzi, hogy a modell nagyon jól szeparálja a két osztályt, azonban az alapértelmezett 0.5-ös döntési küszöb mellett a NORMAL osztály felismerése kevésbé kiegyensúlyozott.
+
+---
+
+## 7️⃣ Transfer Learning alapú modell – VGG16 (módosított threshold)
+
+**Notebook:**
+`notebooks/07_transfer_learning_modified_vgg16.ipynb`
+
+### Modell leírása
+
+Ebben a kísérletben a VGG16 architektúrát változatlan formában alkalmaztam, azonban a döntési küszöb (classification threshold) optimalizálásra került.
+
+A cél:
+- a sensitivity és specificity közötti egyensúly javítása,
+- a NORMAL osztály felismerési arányának növelése,
+- a klinikailag releváns kompromisszum vizsgálata.
+
+A tanítás teljes folyamatát újrafuttattam, majd a döntési küszöb módosításával végeztem kiértékelést.
+
+### Kvantitatív eredmények (teszt halmaz, módosított threshold)
+
+- **Accuracy:** 90.54%
+- **ROC–AUC:** 0.9748
+- **PNEUMONIA recall:** 97.69%
+- **NORMAL recall:** 78.63%
+
+A confusion matrix alapján megfigyelhető, hogy:
+- a NORMAL osztály recall értéke jelentősen javult,
+- a pneumonia felismerési arány minimálisan csökkent,
+- az overall accuracy növekedett.
+
+### Megjegyzés
+
+A threshold optimalizáció eredményeként a modell:
+- kiegyensúlyozottabb teljesítményt mutat,
+- magas szeparációs képességét (ROC–AUC) megőrizte,
+- klinikai szempontból rugalmasabban paraméterezhetővé vált.
+
+Ez a kísérlet rávilágít arra, hogy a neurális hálózat teljesítménye nem kizárólag az architektúrától, hanem a döntési stratégia megválasztásától is függ.
+
+---
+
 ## 📈 Modellek összehasonlítása
 
 | Modell         | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
@@ -162,17 +237,16 @@ A confusion matrix alapján megfigyelhető, hogy a MobileNetV2:
 | ResNet50       | 86.54%   | 0.943   | 72.65%        | 94.87%           |
 | DenseNet121    | 89.74%   | 0.965   | 84.19%        | 93.08%           |
 | EfficientNetB0 | 87.34%   | 0.952   | 76.07%        | 94.10%           |
-|**MobileNetV2** |**90.38%**|**0.964**|**89.32%**     | **91.03%**       |
+|**MobileNetV2** | 90.38% | 0.964 |**89.32%**     |  91.03%       |
+| VGG16(0.5 threshold) | 88.62% | 0.973 | 71.79% | **98.2%** |
+| VGG16(optimal threshold) | **90.54%** | **0.975** | 78.63% | 97.69% |
 
 ### Értelmezés
-- A **MobileNetV2** a legmagasabb **overall accuracy** értéket érte el,
-  miközben alacsony számítási igényű architektúra.
-- A **DenseNet121** továbbra is az egyik legkiegyensúlyozottabb modell,
-  különösen a ROC–AUC érték tekintetében.
-- A **ResNet50** és **EfficientNetB0** modellek erőssége a pneumonia esetek
-  magas felismerési aránya, azonban a NORMAL osztályban több tévesztést mutatnak.
-- A MobileNetV2 eredményei azt jelzik, hogy **könnyű, erőforrás-hatékony modellek is
-  képesek klinikailag releváns teljesítményt nyújtani**.
+- A **MobileNetV2** a legmagasabb **overall accuracy** értéket érte el, miközben alacsony számítási igényű architektúra.
+- A **DenseNet121** továbbra is az egyik legkiegyensúlyozottabb modell, különösen a ROC–AUC érték tekintetében.
+- A **ResNet50** és **EfficientNetB0** modellek erőssége a pneumonia esetek magas felismerési aránya, azonban a NORMAL osztályban több tévesztést mutatnak.
+- A MobileNetV2 eredményei azt jelzik, hogy **könnyű, erőforrás-hatékony modellek is képesek klinikailag releváns teljesítményt nyújtani**.
+- A **VGG16** érte el a legmagasabb ROC–AUC értéket, ami a legjobb osztályszeparációra utal. Az alapértelmezett 0.5-ös threshold mellett a modell erősen pneumonia-orientált döntést hozott. A döntési küszöb optimalizálása jelentősen javította a NORMAL osztály felismerését, miközben a pneumonia detektálási arány klinikailag releváns tartományban maradt. A **MobileNetV2** továbbra is a legkiegyensúlyozottabb és paraméter-hatékony megoldás. A kísérletek eredményei azt mutatják, hogy a modell viselkedését nemcsak az architektúra, hanem a döntési stratégia is jelentősen befolyásolja.
 
 ---
 
