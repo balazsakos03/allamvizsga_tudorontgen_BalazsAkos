@@ -5,9 +5,10 @@ data/*
 !data/README.md
 
 # =========================
-# Downloaded weight files
+# Downloaded weight files & Web App Models
 # =========================
 downloaded_weights/
+models/
 
 # =========================
 # Results
@@ -34,8 +35,20 @@ __pycache__/
 *.ipynb_save
 
 # =========================
+# Virtual Environments (Local Development)
+# =========================
+venv/
+env/
+.venv/
+
+# =========================
+# Streamlit & Environment Variables
+# =========================
+.streamlit/secrets.toml
+.env
+
+# =========================
 # System files
 # =========================
 .DS_Store
 Thumbs.db
-
