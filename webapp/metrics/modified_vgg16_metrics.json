@@ -1,0 +1,47 @@
+{
+  "model": "VGG16_transfer_modified",
+  "img_size": [
+    224,
+    224
+  ],
+  "batch_size": 32,
+  "epochs_total": 12,
+  "roc_auc": 0.9747589305281614,
+  "confusion_matrix": [
+    [
+      184,
+      50
+    ],
+    [
+      9,
+      381
+    ]
+  ],
+  "classification_report": {
+    "NORMAL": {
+      "precision": 0.9533678756476683,
+      "recall": 0.7863247863247863,
+      "f1-score": 0.8618266978922716,
+      "support": 234.0
+    },
+    "PNEUMONIA": {
+      "precision": 0.8839907192575406,
+      "recall": 0.9769230769230769,
+      "f1-score": 0.928136419001218,
+      "support": 390.0
+    },
+    "accuracy": 0.905448717948718,
+    "macro avg": {
+      "precision": 0.9186792974526045,
+      "recall": 0.8816239316239316,
+      "f1-score": 0.8949815584467449,
+      "support": 624.0
+    },
+    "weighted avg": {
+      "precision": 0.9100071529038385,
+      "recall": 0.905448717948718,
+      "f1-score": 0.903270273585363,
+      "support": 624.0
+    }
+  }
+}

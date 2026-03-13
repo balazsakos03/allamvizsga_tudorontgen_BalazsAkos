@@ -1,0 +1,47 @@
+{
+  "model": "MobileNetV2_transfer",
+  "img_size": [
+    224,
+    224
+  ],
+  "batch_size": 32,
+  "epochs_total": 12,
+  "roc_auc": 0.9642998027613412,
+  "confusion_matrix": [
+    [
+      209,
+      25
+    ],
+    [
+      35,
+      355
+    ]
+  ],
+  "classification_report": {
+    "NORMAL": {
+      "precision": 0.8565573770491803,
+      "recall": 0.8931623931623932,
+      "f1-score": 0.8744769874476989,
+      "support": 234
+    },
+    "PNEUMONIA": {
+      "precision": 0.9342105263157895,
+      "recall": 0.9102564102564102,
+      "f1-score": 0.922077922077922,
+      "support": 390
+    },
+    "accuracy": 0.9038461538461539,
+    "macro avg": {
+      "precision": 0.8953839516824849,
+      "recall": 0.9017094017094017,
+      "f1-score": 0.8982774547628105,
+      "support": 624
+    },
+    "weighted avg": {
+      "precision": 0.905090595340811,
+      "recall": 0.9038461538461539,
+      "f1-score": 0.9042275715915883,
+      "support": 624
+    }
+  }
+}
