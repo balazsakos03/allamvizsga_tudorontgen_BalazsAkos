@@ -11,15 +11,29 @@ st.set_page_config(page_title="Chest X-Ray Classifier", layout="wide")
 
 #modell betoltese
 @st.cache_resource
-def load_keras_model(model_path):
-    # return tf.keras.models.load_model(model_path)
-    return "Model loaded from: " + model_path
+def load_keras_model(model_name):
+    model_path = os.path.join("models", f"{model_name}.keras")
+    if os.path.exists(model_path):
+        return tf.keras.models.load_model(model_path)
+    else:
+        None
 
 #elofeldolgozas
-def preprocess_image(image, target_size=(224, 224)):
+def preprocess_image(image, model_name, target_size=(224, 224)):
     img = image.resize(target_size)
-    img_array = np.array(img)
+    img_array = np.array(img, dtype=np.float32)
     img_array = np.expand_dims(img_array, axis=0)
+
+    name_lower = model_name.lower()
+
+    if "resnet" in name_lower or "densenet" in name_lower:
+        img_array = img_array / 255.0
+    elif "efficientnet" in name_lower:
+        img_array = tf.keras.applications.efficientnet.preprocess_input(img_array)
+    elif "mobilenet" in name_lower:
+        img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
+    elif "vgg" in name_lower:
+        img_array = tf.keras.applications.vgg16.preprocess_input(img_array)
     return img_array
 
 #ui es navigacio
@@ -90,9 +104,17 @@ if page == "Model Statistics":
 elif page == "Real-time Inference":
     st.header("X-Ray Image Analysis")
     
-    available_models = ["ResNet50", "DenseNet121", "EfficientNetB0", "MobileNetV2", "VGG16", "VGG16_custom_threshold"]
-    selected_model_name = st.selectbox("Select a model for inference:", available_models)
-    st.info(f"Currently selected: **{selected_model_name}**")
+    models_dir = "models"
+    if os.path.exists(models_dir):
+        available_models = [f.replace(".keras", "") for f in os.listdir(models_dir) if f.endswith(".keras")]
+    else:
+        available_models = []
+
+    if not available_models:
+        st.warning("No .keras files found in the 'models' directory.")
+    else:
+        selected_model_name = st.selectbox("Select a model for inference:", available_models)
+        st.info(f"Currently selected: **{selected_model_name}**")
     
     uploaded_file = st.file_uploader("Upload a Chest X-Ray image (JPG, PNG)", type=["jpg", "jpeg", "png"])
     
@@ -101,15 +123,32 @@ elif page == "Real-time Inference":
         col1, col2 = st.columns(2)
         
         with col1:
-            st.image(image, caption="Uploaded X-Ray", use_column_width=True)
+            st.image(image, caption="Uploaded X-Ray", use_container_width=True)
             
         with col2:
             st.subheader("Prediction Results")
             if st.button("Run Analysis", type="primary"):
                 with st.spinner('Analyzing image...'):
-                    #szimulalt eredmeny
-                    simulated_prediction = np.random.rand() 
-                    if simulated_prediction > 0.5:
-                        st.error(f"Prediction: **Pneumonia / Abnormal** (Confidence: {simulated_prediction:.2%})")
+                    model = load_keras_model(selected_model_name)
+
+                    if model is None:
+                        st.error(f"Error: Model '{selected_model_name}.keras' could not be loaded")
                     else:
-                        st.success(f"Prediction: **Normal** (Confidence: {1 - simulated_prediction:.2%})")
+                        processed_img = preprocess_image(image, selected_model_name, target_size=(224, 224))
+
+                        prediction = model.predict(processed_img)
+
+                        if prediction.shape[-1] == 1:
+                            #1 kimeneti neuron (sigmoid)
+                            prob = float(prediction[0][0])
+                            is_pneumonia = prob > 0.5
+                            confidence = prob if is_pneumonia else 1.0 - prob
+                        else:
+                            #2 kimeneti neuron (softmax)
+                            is_pneumonia = np.argmax(prediction[0]) == 1
+                            confidence = float(np.max(prediction[0]))
+
+                        if is_pneumonia:
+                            st.error(f"Prediction: **PNEUMONIA / ABNORMAL** (Confidence: {confidence:.2%})")
+                        else:
+                            st.success(f"Prediction: **NORMAL** (Confidence: {confidence:.2%})")
