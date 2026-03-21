@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import json
 import os
+import cv2
 from PIL import Image
 import matplotlib.cm as cm
 
@@ -22,10 +23,22 @@ def load_keras_model(model_name):
 #elofeldolgozas
 def preprocess_image(image, model_name, target_size=(224, 224)):
     img = image.resize(target_size)
-    img_array = np.array(img, dtype=np.float32)
-    img_array = np.expand_dims(img_array, axis=0)
-
+    img_array = np.array(img)
     name_lower = model_name.lower()
+
+    if "clahe" in name_lower:
+        img_uint8 = np.clip(img_array, 0, 255).astype(np.uint8)
+        lab = cv2.cvtColor(img_uint8, cv2.COLOR_RGB2LAB)
+        l, a, b = cv2.split(lab)
+        
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        cl = clahe.apply(l)
+        
+        limg = cv2.merge((cl, a, b))
+        img_array = cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
+
+    img_array = img_array.astype(np.float32)
+    img_array = np.expand_dims(img_array, axis=0)
 
     if "resnet" in name_lower or "densenet" in name_lower:
         img_array = img_array / 255.0
@@ -35,6 +48,7 @@ def preprocess_image(image, model_name, target_size=(224, 224)):
         img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
     elif "vgg" in name_lower:
         img_array = tf.keras.applications.vgg16.preprocess_input(img_array)
+        
     return img_array
 
 #grad cam vizualizacio
