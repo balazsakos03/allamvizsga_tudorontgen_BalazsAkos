@@ -21,8 +21,8 @@ webapp/
 **Megjegyzés:** A GitHub fájlméret-korlátozásai miatt a betanított modellek súlyai (.keras fájlok) nincsenek feltöltve a tárolóba. Ezeket lokálisan kell a models/ mappába helyezni a futtatás előtt.
 
 ## Telepítés és Futtatás lokálisan
-# 1. Nyisd meg a terminált a webapp mappában.
-# 2. Készíts és aktiválj egy virtuális környezetet:
+### 1. Nyisd meg a terminált a webapp mappában.
+### 2. Készíts és aktiválj egy virtuális környezetet:
 ```python
 python -m venv venv
 # Windows:
@@ -30,11 +30,11 @@ venv\Scripts\activate
 # Mac/Linux:
 source venv/bin/activate
 ```
-# 3.Telepítsd a szükséges könyvtárakat:
+### 3.Telepítsd a szükséges könyvtárakat:
 ```bash
 pip install streamlit tensorflow pandas pillow opencv-python matplotlib
 ```
-# 4.Indítsd el az alkalmazást:
+### 4.Indítsd el az alkalmazást:
 ```bash
 streamlit run app.py
 ```
