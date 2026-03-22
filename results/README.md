@@ -11,7 +11,7 @@ valamint azok **objektív összehasonlításának** dokumentálása.
 ## 1. Kezdeti baseline modell
 
 **Notebook:**  
-`notebooks/01_baseline_cnn.ipynb`
+`notebooks/01-baseline-cnn.ipynb`
 
 ### Modell leírása
 Az első modell egy **kezdetleges, baseline jellegű konvolúciós neurális háló**,  
@@ -36,7 +36,7 @@ Az itt elért eredmények elsősorban **kiindulási alapként** szolgálnak.
 ## 2. Transfer Learning alapú referencia modell – ResNet50
 
 **Notebook:**  
-`notebooks/02_transfer_learning_resnet.ipynb`
+`notebooks/02-transfer-learning-resnet.ipynb`
 
 ### Modell leírása
 A második kísérlet egy **Transfer Learning alapú konvolúciós neurális háló**,  
@@ -69,7 +69,7 @@ amelyhez a további architektúrák teljesítménye összehasonlítható.
 ## 3. Transfer Learning alapú modell – DenseNet121
 
 **Notebook:**  
-`notebooks/03_transfer_learning_densenet.ipynb`
+`notebooks/03-transfer-learning-densenet.ipynb`
 
 ### Modell leírása
 A harmadik kísérlet a **DenseNet121 architektúrára** épül,  
@@ -97,7 +97,7 @@ A confusion matrix alapján a DenseNet121:
 ## 4. Transfer Learning alapú modell – EfficientNetB0
 
 **Notebook:**  
-`notebooks/04_transfer_learning_efficientnetb0.ipynb`
+`notebooks/04-transfer-learning-efficientnetb0.ipynb`
 
 ### Modell leírása
 A negyedik kísérlet az **EfficientNetB0 architektúrát** alkalmazza,  
@@ -125,7 +125,7 @@ Az eredmények alapján az EfficientNetB0:
 ## 5. Transfer Learning alapú modell – MobileNetV2
 
 **Notebook:**  
-`notebooks/05_transfer_learning_mobilenetv2.ipynb`
+`notebooks/05-transfer-learning-mobilenetv2.ipynb`
 
 ### Modell leírása
 Az ötödik kísérlet a **MobileNetV2 architektúrát** alkalmazza,  
@@ -158,7 +158,7 @@ A confusion matrix alapján megfigyelhető, hogy a MobileNetV2:
 ## 6. Transfer Learning alapú modell – VGG16
 
 **Notebook:**
-`notebooks/06_transfer_learning_vgg16.ipynb`
+`notebooks/06-transfer-learning-vgg16.ipynb`
 
 ### Modell leírása
 A hatodik kísérlet a **VGG16 architektúrát** alkalmazza, amely egy klasszikus, mély konvolúciós neurális hálózat.
@@ -194,7 +194,7 @@ A VGG16 kiemelkedően magas ROC–AUC értéket produkált, ami azt jelzi, hogy 
 ## 7. Transfer Learning alapú modell – VGG16 (módosított threshold)
 
 **Notebook:**
-`notebooks/07_transfer_learning_modified_vgg16.ipynb`
+`notebooks/07-transfer-learning-modified-vgg16.ipynb`
 
 ### Modell leírása
 
@@ -227,6 +227,31 @@ A threshold optimalizáció eredményeként a modell:
 - klinikai szempontból rugalmasabban paraméterezhetővé vált.
 
 Ez a kísérlet rávilágít arra, hogy a neurális hálózat teljesítménye nem kizárólag az architektúrától, hanem a döntési stratégia megválasztásától is függ.
+
+---
+
+## 8. Transfer learning alapú modell - VGG16 (CLAHE előfeldolgozással)
+
+**Notebook:**
+`notebooks/08-transfer-learning-vgg16-clahe.ipynb`
+
+Az összehasonlított eredmények végett, arra a döntésre jutottam, választok egy hálót az eddigiek közül és abból megpróbálom a lehető legjobb eredményeket kihozni a tüdőröntgen felvételek esetében. Választásom a VGG16 architektúrára esett, mivel eredményei alapjan igaz, hogy a `NORMAL Recall` gyengébb, viszont stabilabban teljesít a metrikák alapján a többi architektúránál.
+
+Ebben a kísérletben alkalmaztam a már meglévő VGG16 hálóra egy `CLAHE` előfeldolgozást, amely stabilizálja a röntgenfelvételeken eltérő kontrasztot, fényerőt, ezzel segítve, hogy a háló ne csak a saját dataset-jén teljesítsen jól, hanem idegen képeken is jobban meg tudja állni a helyét. Az eddigi tanított hálózatokat leteszteltem egy webappon belül. Real time futattam őket idegen képeken, és szinte mindegyik elhasalt ezen a teszten. Az elkövetkezendő kísérletekben erre fogok több hangsúlyt fektetni, hogy az adott háló ne csak a saját adathalmazán, de idegen képeken is jól működjön.
+
+A `CLAHE` előfeldolgozás javított ezen a problémán de nem oldotta meg. A háló most is képes teljesen egyértelmű képet rosszul besorolni, viszont nem annyiszor mint eddig. Ezt a hálót az eddigiekhez képest több ideig is tanítottam(33 epoch).
+
+
+### Kvantitatív eredmények (saját teszthalmazon)
+
+- **Accuracy:** 0.9183
+- **ROC–AUC:** 0.9756
+- **PNEUMONIA recall:** 0.9744
+- **NORMAL recall:** 0.8248
+
+
+Az eredményekből látszik, hogy a modell továbbra is nagyon jól felismeri a beteg eseteket.
+A normal recall alacsonyabb, viszont javulás van a legutóbbi verzióhoz képest.
 
 ---
 
