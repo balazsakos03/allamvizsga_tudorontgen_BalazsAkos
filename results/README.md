@@ -8,7 +8,7 @@ valamint azok **objektív összehasonlításának** dokumentálása.
 
 ---
 
-## 1️⃣ Kezdeti baseline modell
+## 1. Kezdeti baseline modell
 
 **Notebook:**  
 `notebooks/01_baseline_cnn.ipynb`
@@ -33,7 +33,7 @@ Az itt elért eredmények elsősorban **kiindulási alapként** szolgálnak.
 
 ---
 
-## 2️⃣ Transfer Learning alapú referencia modell – ResNet50
+## 2. Transfer Learning alapú referencia modell – ResNet50
 
 **Notebook:**  
 `notebooks/02_transfer_learning_resnet.ipynb`
@@ -66,7 +66,7 @@ amelyhez a további architektúrák teljesítménye összehasonlítható.
 
 ---
 
-## 3️⃣ Transfer Learning alapú modell – DenseNet121
+## 3. Transfer Learning alapú modell – DenseNet121
 
 **Notebook:**  
 `notebooks/03_transfer_learning_densenet.ipynb`
@@ -94,7 +94,7 @@ A confusion matrix alapján a DenseNet121:
 
 ---
 
-## 4️⃣ Transfer Learning alapú modell – EfficientNetB0
+## 4. Transfer Learning alapú modell – EfficientNetB0
 
 **Notebook:**  
 `notebooks/04_transfer_learning_efficientnetb0.ipynb`
@@ -122,7 +122,7 @@ Az eredmények alapján az EfficientNetB0:
 
 ---
 
-## 5️⃣ Transfer Learning alapú modell – MobileNetV2
+## 5. Transfer Learning alapú modell – MobileNetV2
 
 **Notebook:**  
 `notebooks/05_transfer_learning_mobilenetv2.ipynb`
@@ -155,7 +155,7 @@ A confusion matrix alapján megfigyelhető, hogy a MobileNetV2:
 
 ---
 
-## 6️⃣ Transfer Learning alapú modell – VGG16
+## 6. Transfer Learning alapú modell – VGG16
 
 **Notebook:**
 `notebooks/06_transfer_learning_vgg16.ipynb`
@@ -191,7 +191,7 @@ A VGG16 kiemelkedően magas ROC–AUC értéket produkált, ami azt jelzi, hogy 
 
 ---
 
-## 7️⃣ Transfer Learning alapú modell – VGG16 (módosított threshold)
+## 7. Transfer Learning alapú modell – VGG16 (módosított threshold)
 
 **Notebook:**
 `notebooks/07_transfer_learning_modified_vgg16.ipynb`
