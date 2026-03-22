@@ -20,26 +20,87 @@ def load_keras_model(model_name):
     else:
         None
 
-#elofeldolgozas
-def preprocess_image(image, model_name, target_size=(224, 224)):
-    img = image.resize(target_size)
-    img_array = np.array(img)
-    name_lower = model_name.lower()
+@st.cache_resource
+def load_unet_model():
+    #unet model betoltese
+    unet_path = os.path.join("models", "unet_lung_seg.hdf5")
+    if not os.path.exists(unet_path):
+        unet_path = os.path.join("models", "unet_model.keras") 
+        
+    if os.path.exists(unet_path):
+        return tf.keras.models.load_model(unet_path, compile=False) 
+    return None
 
+#elofeldolgozas
+def preprocess_image(image, model_name, target_size=(224, 224), unet_model=None):
+    img_array = np.array(image)
+    name_lower = model_name.lower()
+    
+    #unet szegmentalas es auto crop
+    if "unet" in name_lower and unet_model is not None:
+        img_uint8 = np.clip(img_array, 0, 255).astype(np.uint8)
+        
+        #unet bemeneti meretek
+        unet_input_shape = unet_model.input_shape
+        unet_img_size = (unet_input_shape[1], unet_input_shape[2])
+        unet_channels = unet_input_shape[3]
+        
+        #kep elokeszitese az unet szamara
+        img_unet = cv2.resize(img_uint8, unet_img_size)
+        img_unet = img_unet / 255.0
+        
+        if unet_channels == 1:
+            img_unet_gray = cv2.cvtColor((img_unet * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)
+            img_unet = img_unet_gray / 255.0
+            img_unet = np.expand_dims(img_unet, axis=-1)
+            
+        img_tensor = np.expand_dims(img_unet, axis=0).astype(np.float32)
+        
+        #maszkolas
+        mask = unet_model(img_tensor, training=False)[0].numpy()
+        mask_resized = cv2.resize(mask, (img_array.shape[1], img_array.shape[0]))
+        
+        #binarizalas es biztos 2d forma
+        if len(mask_resized.shape) == 3:
+            mask_resized = np.squeeze(mask_resized)
+        mask_binary = (mask_resized > 0.5).astype(np.uint8)
+        
+        #maszk raszorzas
+        masked_img = cv2.bitwise_and(img_uint8, img_uint8, mask=mask_binary)
+        
+        #auto crop
+        contours, _ = cv2.findContours(mask_binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        if contours:
+            c = max(contours, key=cv2.contourArea)
+            x, y, w, h = cv2.boundingRect(c)
+            pad = 10
+            x1 = max(0, x - pad)
+            y1 = max(0, y - pad)
+            x2 = min(img_array.shape[1], x + w + pad)
+            y2 = min(img_array.shape[0], y + h + pad)
+            masked_img = masked_img[y1:y2, x1:x2]
+            
+        img_array = cv2.resize(masked_img, target_size)
+    else:
+        img_resized = image.resize(target_size)
+        img_array = np.array(img_resized)
+
+    #clahe
     if "clahe" in name_lower:
         img_uint8 = np.clip(img_array, 0, 255).astype(np.uint8)
         lab = cv2.cvtColor(img_uint8, cv2.COLOR_RGB2LAB)
         l, a, b = cv2.split(lab)
-        
         clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
         cl = clahe.apply(l)
-        
         limg = cv2.merge((cl, a, b))
         img_array = cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
 
-    img_array = img_array.astype(np.float32)
-    img_array = np.expand_dims(img_array, axis=0)
+    display_image = Image.fromarray(np.uint8(img_array))
 
+    #modell specifikus elofeldolgozas
+    img_array = img_array.astype(np.float32)
+    img_array = np.expand_dims(img_array, axis=0) # (1, 224, 224, 3)
+    
     if "resnet" in name_lower or "densenet" in name_lower:
         img_array = img_array / 255.0
     elif "efficientnet" in name_lower:
@@ -49,7 +110,7 @@ def preprocess_image(image, model_name, target_size=(224, 224)):
     elif "vgg" in name_lower:
         img_array = tf.keras.applications.vgg16.preprocess_input(img_array)
         
-    return img_array
+    return img_array, display_image
 
 #grad cam vizualizacio
 def get_last_conv_layer_name(model_name):
@@ -206,11 +267,15 @@ elif page == "Real-time Inference":
             if st.button("Run Analysis", type="primary"):
                 with st.spinner('Analyzing image...'):
                     model = load_keras_model(selected_model_name)
+
+                    unet_model = None
+                    if "unet" in selected_model_name.lower():
+                        unet_model = load_unet_model()
                     
                     if model is None:
                         st.error(f"Error: Model '{selected_model_name}.keras' could not be loaded.")
                     else:
-                        processed_img = preprocess_image(image, selected_model_name, target_size=(224, 224))
+                        processed_img, display_img = preprocess_image(image, selected_model_name, target_size=(224, 224), unet_model=unet_model)
                         prediction = model.predict(processed_img)
                         
                         if prediction.shape[-1] == 1:
@@ -231,7 +296,7 @@ elif page == "Real-time Inference":
                         if layer_name:
                             try:
                                 heatmap = make_gradcam_heatmap(processed_img, model, layer_name)
-                                cam_image = overlay_gradcam(image, heatmap)
+                                cam_image = overlay_gradcam(display_img, heatmap)
                                 
                                 #megjelenites a harmadik oszlopban
                                 with col3:
