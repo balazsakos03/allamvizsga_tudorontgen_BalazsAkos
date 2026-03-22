@@ -290,8 +290,9 @@ A Grad-CAM overlay képek az alábbi mappákban találhatók:
 - `results/figures/03_transfer_learning_densenet/gradcam_densenet121/`
 - `results/figures/04_transfer_learning_efficientnetb0/gradcam_efficientnetb0/`
 - `results/figures/05_transfer_learning_mobilenetv2/gradcam_mobilenetv2/`
-- `results/figures/05_transfer_learning_mobilenetv2/gradcam_vgg16/`
-- `results/figures/05_transfer_learning_mobilenetv2/gradcam_modified_vgg16/`
+- `results/figures/06_transfer_learning_mobilenetv2/gradcam_vgg16/`
+- `results/figures/07_transfer_learning_mobilenetv2/gradcam_modified_vgg16/`
+- `results/figures/08_transfer_learning_mobilenetv2/gradcam_vgg16_clahe/`
 
 A vizualizációk segítik a modellek döntéseinek értelmezését,  
 valamint rávilágítanak az esetleges tévesztések mögötti mintázatokra.
