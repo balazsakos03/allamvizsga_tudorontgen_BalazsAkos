@@ -1,62 +1,50 @@
-# 🩻 Tüdőröntgen felvételek osztályozása mély tanulású neurális hálózatokkal
+# Tüdőröntgen felvételek osztályozása mély tanulású neurális hálózatokkal
 
-Ez a repository a szakdolgozatom megvalósítását tartalmazza:  
-**„Tüdőröntgen felvételek diagnosztikai célú osztályozása mély tanulású neurális hálózatokkal”**
-
----
-
-## 📌 Projekt leírása
-A projekt célja, hogy mélytanulási neurális hálózatok segítségével  
-**mellkasröntgen felvételeket automatikusan osztályozzon**,  
-és összehasonlítsa különböző modellek és tanítási stratégiák teljesítményét.
-
-A hangsúly nem egyetlen „végső” modell megalkotásán van,  
-hanem a **modellek fejlődési folyamatának**,  
-valamint azok **eredményeinek és tapasztalatainak dokumentálásán**.
+Szakdolgozat – Balázs Ákos – 2025
 
 ---
 
-## 🧪 Kísérleti megközelítés
-A projekt során:
-- kezdeti, egyszerű baseline modellek kerülnek megvalósításra,
-- majd fokozatosan összetettebb, Transfer Learning alapú architektúrák,
-- amelyek teljesítménye különböző metrikák segítségével kerül összehasonlításra.
+## A projektről
 
-Az egyes kísérletek és eredmények részletes leírása a  
-`results/README.md` fájlban található.
+A dolgozat célja mellkasröntgen felvételek automatikus osztályozása mélytanulási módszerekkel, valamint különböző neurális hálózati architektúrák és előfeldolgozási stratégiák szisztematikus összehasonlítása.
+
+A hangsúly nem egyetlen végső modell megalkotásán van, hanem a fejlesztési folyamat dokumentálásán: minden kísérlet tanulsága — beleértve a sikertelen megközelítéseket is — részét képezi a dolgozatnak.
 
 ---
 
-## 📂 Repository felépítése
+## Megközelítés
+
+A projekt iteratív felépítésű. Kiindulópontként egy egyszerű baseline CNN kerül megvalósításra, amelyre fokozatosan összetettebb Transfer Learning alapú architektúrák épülnek. Az egyes kísérletek eredményei egységes metrikakészlettel kerülnek összehasonlításra (Accuracy, ROC-AUC, Sensitivity, Specificity).
+
+A vizsgált architektúrák: baseline CNN, ResNet50, DenseNet121, EfficientNetB0, MobileNetV2, VGG16 és annak több előfeldolgozási variánsa (CLAHE, U-Net szegmentáció, aszimmetrikus crop).
+
+Az eredmények és tapasztalatok részletes leírása a `results/README.md` fájlban található.
+
+---
+
+## Repository felépítése
 ```
-├── data/ # Felhasznált adatkészletek dokumentációja
-├── notebooks/ # Tanítási és kiértékelési notebookok
-├── results/ # Modellek eredményei, metrikák és grafikonok
-├── src/ # Közös forráskód (modellek, segédfüggvények)
+├── data/               # Felhasznált adatkészletek dokumentációja
+├── notebooks/          # Tanítási és kiértékelési notebookok
+├── results/            # Modellek metrikái és kiértékelési grafikonok
+├── src/                # Közös forráskód (modellek, segédfüggvények)
 ├── .gitignore
 └── README.md
 ```
 
-
-- Az adatkészletek **nem kerülnek feltöltésre**, csak dokumentálásra  
-  → lásd: `data/README.md`
-- A modellekhez tartozó részletes tapasztalatok  
-  → lásd: `results/README.md`
+Az adatkészletek nem kerülnek feltöltésre, csak dokumentálásra — lásd: `data/README.md`.
 
 ---
 
-## 🛠️ Felhasznált technológiák
-- Python 3.10+  
-- TensorFlow / Keras  
-- PyTorch  
-- NumPy, OpenCV, Matplotlib  
-- **Kaggle Notebook környezet** (fő futtatási platform)
+## Technológiák
 
-A projekt során több neurális hálózat és mélytanulási megközelítés kerül kipróbálásra,  
-különös tekintettel a Transfer Learning technikákra és az architektúrák összehasonlítására.
+- Python 3.10+
+- TensorFlow / Keras
+- NumPy, OpenCV, Matplotlib, scikit-learn
+- Kaggle Notebook (fő futtatási platform)
 
 ---
 
-## 👨‍💻 Szerző
-- **Balázs Ákos**  
-Szakdolgozat – 2025
+## Szerző
+
+Balázs Ákos — szakdolgozat, 2025
