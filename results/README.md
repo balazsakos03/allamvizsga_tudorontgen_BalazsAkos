@@ -4,7 +4,7 @@ Ez a mappa a projekt során megvalósított neurális hálózatok eredményeit,
 kiértékeléseit és tapasztalatait tartalmazza.
 
 A cél nem egyetlen modell bemutatása, hanem a modellek fejlődési folyamatának
-és objektív összehasonlításának dokumentálása — beleértve a sikertelen
+és objektív összahasonlításának dokumentálása — beleértve a sikertelen
 megközelítéseket is, amelyek tanulságai szintén részét képezik a dolgozatnak.
 
 ---
@@ -237,6 +237,42 @@ adatfüggő komponenst.
 
 ---
 
+## 11. Transfer Learning – VGG16 + crop + CLAHE (COVID-19 Radiography Database)
+
+**Notebook:** `notebooks/11-transfer-learning-vgg16-crop-clahe-covid-radiography.ipynb`
+
+Ez a kísérlet a 10-es notebookkal azonos architektúrát és preprocessing
+stratégiát alkalmaz, azonban egy teljesen más forrásból származó adatkészleten:
+a COVID-19 Radiography Database-en (Kaggle, Chowdhury et al.).
+
+A dataset a 10-es kísérletben használt Kaggle Chest X-Ray datasettől több
+szempontból is eltér. Képei felnőtt betegekről készültek, homogénebb
+minőségűek, és jelentősen nagyobb Normal osztályt tartalmaznak (10,192 Normal
+vs. 1,345 Viral Pneumonia). Mivel a dataset nem tartalmaz előre felosztott
+train/val/test struktúrát, a képeket 80/10/10 arányban osztottuk fel
+stratifikált mintavétellel. A COVID és Lung Opacity osztályokat kihagytuk,
+kizárólag a Normal és Viral Pneumonia képeket használtuk.
+
+A kísérlet elsődleges célja a cross-dataset generalizáció vizsgálatának
+előkészítése: egy második, független forrásból tanított modell rendelkezésre
+állása lehetővé teszi annak mérését, hogy a két modell mennyire teljesít
+egymás teszthalmazán.
+
+### Eredmények
+
+- **Accuracy:** 98.61%
+- **ROC–AUC:** 0.9987
+- **PNEUMONIA recall:** 92.54%
+- **NORMAL recall:** 99.41%
+
+A kiemelkedően magas metrikák részben a dataset homogénebb képminőségének
+és a nagyobb Normal osztálynak köszönhetők. A ROC–AUC értéke 0.9987,
+amely gyakorlatilag tökéletes osztályszeparációra utal. A cross-dataset
+kiértékelés fogja megmutatni, hogy ez a teljesítmény mennyire generalizál
+idegen forrásból származó felvételekre.
+
+---
+
 ## Modellek összehasonlítása
 
 | Modell | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
@@ -250,7 +286,8 @@ adatfüggő komponenst.
 | VGG16 (opt. threshold) | 90.54% | 0.975 | 78.63% | 97.69% |
 | VGG16 + CLAHE | 91.83% | 0.9756 | 82.48% | 97.44% |
 | VGG16 + U-Net + CLAHE | 91.51% | 0.9682 | 86.32% | 94.62% |
-| VGG16 + crop + CLAHE | 91.67% | 0.9742 | 83.33% | 96.67% |
+| VGG16 + crop + CLAHE (Kaggle) | 91.67% | 0.9742 | 83.33% | 96.67% |
+| VGG16 + crop + CLAHE (COVID Radiography) | 98.61% | 0.9987 | 99.41% | 92.54% |
 
 ### Értelmezés
 
@@ -261,6 +298,13 @@ variánsok a legmagasabb ROC–AUC értékeket mutatják, ami erős osztályszep
 utal. A CLAHE és crop alapú előfeldolgozás nem csak a teszthalmazon mért
 metrikákat javította, hanem érdemben növelte a modellek robusztusságát
 idegen, valós körülmények között készült felvételeken is.
+
+A COVID-19 Radiography Database-en tanított modell kiemelkedő metrikái
+részben a dataset kedvezőbb tulajdonságainak (homogén képminőség, nagy
+Normal osztály) köszönhetők, ezért az eredmények nem vethetők össze
+közvetlenül a Kaggle dataseten mért értékekkel. A két modell egymás
+teszthalmazán mért teljesítménye a cross-dataset kiértékelés keretében
+kerül bemutatásra.
 
 Az U-Net alapú kísérlet rávilágított arra, hogy egy összetettebb preprocessing
 pipeline önmagában nem garantál jobb eredményt, ha maga a pipeline is
@@ -286,3 +330,4 @@ A Grad-CAM overlay képek az alábbi mappákban találhatók:
 - `results/figures/08_transfer_learning_vgg16_clahe/gradcam_vgg16_clahe/`
 - `results/figures/09_transfer_learning_vgg16_unet_clahe/gradcam_vgg16_unet_clahe/`
 - `results/figures/10_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_crop_clahe/`
+- `results/figures/11_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_covid/`
