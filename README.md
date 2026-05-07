@@ -27,8 +27,8 @@ Az eredmények és tapasztalatok részletes leírása a `results/README.md` fáj
 ├── data/               # Felhasznált adatkészletek dokumentációja
 ├── notebooks/          # Tanítási és kiértékelési notebookok
 ├── results/            # Modellek metrikái és kiértékelési grafikonok
-├── test_pictures/      # Idegen képek amelyekkel a hálókat lehet tesztelni a webappon
-├── webapp/             # Streamlit webapp vizualizáció és valós idejű tesztelás céljából
+├── test_pictures/      # Idegen képek amelyekkel a hálókat lehet tesztelni a webapp keretében
+├── webapp/             # Streamlit webapp a vizualizáció és valós idejű tesztelés céljából
 ├── .gitignore
 └── README.md
 ```
