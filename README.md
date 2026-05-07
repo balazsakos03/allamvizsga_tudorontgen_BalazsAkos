@@ -1,6 +1,6 @@
 # Tüdőröntgen felvételek osztályozása mély tanulású neurális hálózatokkal
 
-Szakdolgozat – Balázs Ákos – 2025
+Szakdolgozat – Balázs Ákos – 2025/26
 
 ---
 
@@ -27,7 +27,8 @@ Az eredmények és tapasztalatok részletes leírása a `results/README.md` fáj
 ├── data/               # Felhasznált adatkészletek dokumentációja
 ├── notebooks/          # Tanítási és kiértékelési notebookok
 ├── results/            # Modellek metrikái és kiértékelési grafikonok
-├── src/                # Közös forráskód (modellek, segédfüggvények)
+├── test_pictures/      # Idegen képek amelyekkel a hálókat lehet tesztelni a webappon
+├── webapp/             # Streamlit webapp vizualizáció és valós idejű tesztelás céljából
 ├── .gitignore
 └── README.md
 ```
@@ -47,4 +48,4 @@ Az adatkészletek nem kerülnek feltöltésre, csak dokumentálásra — lásd: 
 
 ## Szerző
 
-Balázs Ákos — szakdolgozat, 2025
+Szakdolgozat – Balázs Ákos – 2025/26
