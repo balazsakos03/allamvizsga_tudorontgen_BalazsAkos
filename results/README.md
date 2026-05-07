@@ -239,7 +239,7 @@ adatfüggő komponenst.
 
 ## 11. Transfer Learning – VGG16 + crop + CLAHE (COVID-19 Radiography Database)
 
-**Notebook:** `notebooks/11-transfer-learning-vgg16-crop-clahe-covid-radiography.ipynb`
+**Notebook:** `notebooks/11-transfer-learning-vgg16-crop-clahe.ipynb`
 
 Ez a kísérlet a 10-es notebookkal azonos architektúrát és preprocessing
 stratégiát alkalmaz, azonban egy teljesen más forrásból származó adatkészleten:
