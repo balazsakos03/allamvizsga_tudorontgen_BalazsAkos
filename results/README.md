@@ -1,298 +1,288 @@
-# 📊 Kísérleti eredmények és modellek
+# Kísérleti eredmények és modellek
 
-Ez a mappa a projekt során megvalósított neurális hálózatok  
-**eredményeit, kiértékeléseit és tapasztalatait** tartalmazza.
+Ez a mappa a projekt során megvalósított neurális hálózatok eredményeit,
+kiértékeléseit és tapasztalatait tartalmazza.
 
-A cél nem egyetlen modell bemutatása, hanem a **modellek fejlődési folyamatának**,  
-valamint azok **objektív összehasonlításának** dokumentálása.
-
----
-
-## 1. Kezdeti baseline modell
-
-**Notebook:**  
-`notebooks/01-baseline-cnn.ipynb`
-
-### Modell leírása
-Az első modell egy **kezdetleges, baseline jellegű konvolúciós neurális háló**,  
-amelynek célja elsősorban:
-
-- a feldolgozási pipeline kipróbálása,
-- az adatkészlet alapvető megértése,
-- valamint egy referencia pont létrehozása a későbbi modellekhez.
-
-A modell:
-- egyszerű CNN architektúrát alkalmazott,
-- nem használt előtanított súlyokat,
-- nem tartalmazott finomhangolást vagy komplex regularizációt.
-
-### Megjegyzés
-Ez a modell **nem tekinthető végleges megoldásnak**,  
-hanem egy **tanulási és validációs lépés** volt a projekt elején.  
-Az itt elért eredmények elsősorban **kiindulási alapként** szolgálnak.
+A cél nem egyetlen modell bemutatása, hanem a modellek fejlődési folyamatának
+és objektív összehasonlításának dokumentálása — beleértve a sikertelen
+megközelítéseket is, amelyek tanulságai szintén részét képezik a dolgozatnak.
 
 ---
 
-## 2. Transfer Learning alapú referencia modell – ResNet50
+## 1. Baseline CNN
 
-**Notebook:**  
-`notebooks/02-transfer-learning-resnet.ipynb`
+**Notebook:** `notebooks/01-baseline-cnn.ipynb`
 
-### Modell leírása
-A második kísérlet egy **Transfer Learning alapú konvolúciós neurális háló**,  
-amely a ResNet50 architektúrát használja ImageNet-en előtanított súlyokkal.
+Az első modell egy egyszerű, előtanított súlyokat nem alkalmazó konvolúciós
+neurális háló, amelynek célja a feldolgozási pipeline kipróbálása és egy
+kiindulási referenciapont létrehozása a későbbi modellekhez.
 
-A modell:
-- bináris osztályozási feladatot old meg (NORMAL vs. PNEUMONIA),
-- adataugmentációt alkalmaz a tanítóhalmazon,
-- kezeli az osztályegyensúlytalanságot,
-- kétfázisú tanítást használ:
-  - fagyasztott backbone
-  - finomhangolt felső rétegek
+A modell nem tartalmaz finomhangolást vagy komplex regularizációt,
+eredményei elsősorban összehasonlítási alapként szolgálnak.
 
-### Kvantitatív eredmények (teszt halmaz)
+---
+
+## 2. Transfer Learning – ResNet50
+
+**Notebook:** `notebooks/02-transfer-learning-resnet.ipynb`
+
+ImageNet-en előtanított ResNet50 architektúra, kétfázisú tanítással
+(fagyasztott backbone, majd fine-tuning), adataugmentációval és
+osztályegyensúly kezeléssel.
+
+### Eredmények
+
 - **Accuracy:** 86.54%
 - **ROC–AUC:** 0.943
 - **PNEUMONIA recall:** 94.87%
 - **NORMAL recall:** 72.65%
 
-A confusion matrix alapján megfigyelhető, hogy a modell  
-**különösen jól teljesít a pneumonia esetek felismerésében**,  
-ugyanakkor a NORMAL osztály esetén több téves pozitív predikció fordul elő.
-
-### Megjegyzés
-Ez a modell szolgál a projekt **első komoly referencia megoldásaként**,  
-amelyhez a további architektúrák teljesítménye összehasonlítható.
+A modell jól teljesít a pneumonia esetek felismerésében, azonban
+a NORMAL osztályban több téves pozitív predikció fordul elő.
+Ez a projekt első komolyabb referencia megoldása.
 
 ---
 
-## 3. Transfer Learning alapú modell – DenseNet121
+## 3. Transfer Learning – DenseNet121
 
-**Notebook:**  
-`notebooks/03-transfer-learning-densenet.ipynb`
+**Notebook:** `notebooks/03-transfer-learning-densenet.ipynb`
 
-### Modell leírása
-A harmadik kísérlet a **DenseNet121 architektúrára** épül,  
-amely sűrű összeköttetéseinek köszönhetően hatékonyabb feature-újrahasznosítást tesz lehetővé.
+DenseNet121 architektúra, amely sűrű összeköttetéseinek köszönhetően
+hatékonyabb feature-újrahasznosítást tesz lehetővé. A tanítási stratégia
+megegyezik a ResNet50 modellnél alkalmazottal.
 
-A tanítási stratégia megegyezik a ResNet50 modellnél alkalmazott módszertannal:
-- ImageNet előtanított súlyok,
-- adataugmentáció,
-- osztályegyensúly kezelése,
-- kétfázisú tanítás (fagyasztás + fine-tuning).
+### Eredmények
 
-### Kvantitatív eredmények (teszt halmaz)
 - **Accuracy:** 89.74%
 - **ROC–AUC:** 0.965
 - **PNEUMONIA recall:** 93.08%
 - **NORMAL recall:** 84.19%
 
-A confusion matrix alapján a DenseNet121:
-- kevesebb téves pozitív predikciót eredményez a NORMAL osztályban,
-- kiegyensúlyozottabb teljesítményt mutat mindkét osztály esetén,
-- összességében magasabb általános pontosságot ér el.
+A ResNet50-hez képest kiegyensúlyozottabb teljesítmény, kevesebb téves
+pozitív predikcióval a NORMAL osztályban.
 
 ---
 
-## 4. Transfer Learning alapú modell – EfficientNetB0
+## 4. Transfer Learning – EfficientNetB0
 
-**Notebook:**  
-`notebooks/04-transfer-learning-efficientnetb0.ipynb`
+**Notebook:** `notebooks/04-transfer-learning-efficientnetb0.ipynb`
 
-### Modell leírása
-A negyedik kísérlet az **EfficientNetB0 architektúrát** alkalmazza,  
-amely a számítási hatékonyságot és a teljesítményt együttesen optimalizáló  
-**compound scaling** megközelítésre épül.
+EfficientNetB0 architektúra, amely compound scaling megközelítéssel
+együttesen optimalizálja a mélységet, szélességet és felbontást.
 
-A modell:
-- ImageNet-en előtanított súlyokat használ,
-- EfficientNet-specifikus előfeldolgozást alkalmaz,
-- kétfázisú tanítással került optimalizálásra.
+### Eredmények
 
-### Kvantitatív eredmények (teszt halmaz)
 - **Accuracy:** 87.34%
 - **ROC–AUC:** 0.952
 - **PNEUMONIA recall:** 94.10%
 - **NORMAL recall:** 76.07%
 
-Az eredmények alapján az EfficientNetB0:
-- stabil teljesítményt nyújt mindkét osztály esetén,
-- jobb általános pontosságot ér el, mint a ResNet50,
-- ugyanakkor kevésbé kiegyensúlyozott, mint a DenseNet121.
+Stabil teljesítmény, a ResNet50-nél jobb accuracy, azonban kevésbé
+kiegyensúlyozott mint a DenseNet121.
 
 ---
 
-## 5. Transfer Learning alapú modell – MobileNetV2
+## 5. Transfer Learning – MobileNetV2
 
-**Notebook:**  
-`notebooks/05-transfer-learning-mobilenetv2.ipynb`
+**Notebook:** `notebooks/05-transfer-learning-mobilenetv2.ipynb`
 
-### Modell leírása
-Az ötödik kísérlet a **MobileNetV2 architektúrát** alkalmazza,  
-amely kifejezetten alacsony számítási igényű, mobil és edge környezetekre tervezett modell.
+MobileNetV2 architektúra, amely depthwise separable konvolúciókat
+alkalmazva kifejezetten alacsony számítási igényű, mobil és edge
+környezetekre tervezett modell.
 
-A MobileNetV2:
-- depthwise separable convolúciókat használ,
-- jelentősen kevesebb paraméterrel rendelkezik, mint a klasszikus CNN-ek,
-- mégis képes versenyképes teljesítményt nyújtani komplex vizuális feladatokon.
+### Eredmények
 
-A tanítás során:
-- ImageNet-en előtanított súlyokat használtam,
-- MobileNet-specifikus előfeldolgozást alkalmaztam,
-- kétfázisú tanítást végeztem (fagyasztás + finomhangolás).
-
-### Kvantitatív eredmények (teszt halmaz)
 - **Accuracy:** 90.38%
 - **ROC–AUC:** 0.964
 - **PNEUMONIA recall:** 91.03%
 - **NORMAL recall:** 89.32%
 
-A confusion matrix alapján megfigyelhető, hogy a MobileNetV2:
-- mindkét osztály esetén magas recall értéket ér el,
-- különösen kiegyensúlyozott teljesítményt mutat,
-- a legmagasabb összpontosságot biztosítja a vizsgált modellek közül,
-  annak ellenére, hogy számítási igénye jelentősen alacsonyabb.
+A vizsgált modellek közül a legkiegyensúlyozottabb teljesítmény,
+mindkét osztályban magas recall értékkel — annak ellenére, hogy
+paramétereinek száma és számítási igénye jelentősen alacsonyabb
+a többi architektúránál.
 
 ---
 
-## 6. Transfer Learning alapú modell – VGG16
+## 6. Transfer Learning – VGG16
 
-**Notebook:**
-`notebooks/06-transfer-learning-vgg16.ipynb`
+**Notebook:** `notebooks/06-transfer-learning-vgg16.ipynb`
 
-### Modell leírása
-A hatodik kísérlet a **VGG16 architektúrát** alkalmazza, amely egy klasszikus, mély konvolúciós neurális hálózat.
+Klasszikus VGG16 architektúra, egymásra épülő 3×3 konvolúciós rétegekkel.
+Jelentősen nagyobb paraméterszámmal rendelkezik mint a modern,
+optimalizált architektúrák.
 
-A VGG16:
-- egymásra épülő 3×3 konvolúciós rétegeket használ,
-- nem tartalmaz residual vagy dense összeköttetéseket,
-- jelentősen nagyobb paraméterszámmal rendelkezik, mint a modern, optimalizált architektúrák.
-
-A tanítás során:
-- ImageNet-en előtanított súlyokat használtam,
-- VGG-specifikus előfeldolgozást alkalmaztam,
-- kétfázisú tanítást végeztem (fagyasztás + fine-tuning),
-- osztályegyensúly kezelést alkalmaztam.
-
-### Kvantitatív eredmények (teszt halmaz, threshold = 0.5)
+### Eredmények (threshold = 0.5)
 
 - **Accuracy:** 88.62%
 - **ROC–AUC:** 0.9726
 - **PNEUMONIA recall:** 98.72%
 - **NORMAL recall:** 71.79%
 
-A confusion matrix alapján megfigyelhető, hogy a modell:
-- rendkívül magas pneumonia felismerési arányt ér el,
-- ugyanakkor jelentős számú egészséges esetet sorol tévesen beteg kategóriába.
-
-### Megjegyzés
-
-A VGG16 kiemelkedően magas ROC–AUC értéket produkált, ami azt jelzi, hogy a modell nagyon jól szeparálja a két osztályt, azonban az alapértelmezett 0.5-ös döntési küszöb mellett a NORMAL osztály felismerése kevésbé kiegyensúlyozott.
+Kiemelkedően magas ROC–AUC érték, amely erős osztályszeparációra utal.
+Az alapértelmezett 0.5-ös küszöb mellett azonban a modell erősen
+pneumonia-orientált döntést hoz, és a NORMAL osztályban jelentős
+számú téves pozitív predikció fordul elő.
 
 ---
 
-## 7. Transfer Learning alapú modell – VGG16 (módosított threshold)
+## 7. Transfer Learning – VGG16 (optimalizált threshold)
 
-**Notebook:**
-`notebooks/07-transfer-learning-modified-vgg16.ipynb`
+**Notebook:** `notebooks/07-transfer-learning-modified-vgg16.ipynb`
 
-### Modell leírása
+A VGG16 architektúra változatlan formában, azonban a döntési küszöb
+szisztematikus optimalizálásával. A cél a sensitivity és specificity
+közötti egyensúly javítása, klinikailag releváns kompromisszum elérése.
 
-Ebben a kísérletben a VGG16 architektúrát változatlan formában alkalmaztam, azonban a döntési küszöb (classification threshold) optimalizálásra került.
-
-A cél:
-- a sensitivity és specificity közötti egyensúly javítása,
-- a NORMAL osztály felismerési arányának növelése,
-- a klinikailag releváns kompromisszum vizsgálata.
-
-A tanítás teljes folyamatát újrafuttattam, majd a döntési küszöb módosításával végeztem kiértékelést.
-
-### Kvantitatív eredmények (teszt halmaz, módosított threshold)
+### Eredmények (optimalizált threshold)
 
 - **Accuracy:** 90.54%
 - **ROC–AUC:** 0.9748
 - **PNEUMONIA recall:** 97.69%
 - **NORMAL recall:** 78.63%
 
-A confusion matrix alapján megfigyelhető, hogy:
-- a NORMAL osztály recall értéke jelentősen javult,
-- a pneumonia felismerési arány minimálisan csökkent,
-- az overall accuracy növekedett.
-
-### Megjegyzés
-
-A threshold optimalizáció eredményeként a modell:
-- kiegyensúlyozottabb teljesítményt mutat,
-- magas szeparációs képességét (ROC–AUC) megőrizte,
-- klinikai szempontból rugalmasabban paraméterezhetővé vált.
-
-Ez a kísérlet rávilágít arra, hogy a neurális hálózat teljesítménye nem kizárólag az architektúrától, hanem a döntési stratégia megválasztásától is függ.
+A NORMAL osztály recall értéke jelentősen javult, a pneumonia felismerési
+arány klinikailag releváns tartományban maradt. Ez a kísérlet rávilágít arra,
+hogy a modell viselkedését nemcsak az architektúra, hanem a döntési
+stratégia megválasztása is jelentősen befolyásolja.
 
 ---
 
-## 8. Transfer learning alapú modell - VGG16 (CLAHE előfeldolgozással)
+## 8. Transfer Learning – VGG16 + CLAHE
 
-**Notebook:**
-`notebooks/08-transfer-learning-vgg16-clahe.ipynb`
+**Notebook:** `notebooks/08-transfer-learning-vgg16-clahe.ipynb`
 
-Az összehasonlított eredmények végett, arra a döntésre jutottam, választok egy hálót az eddigiek közül és abból megpróbálom a lehető legjobb eredményeket kihozni a tüdőröntgen felvételek esetében. Választásom a VGG16 architektúrára esett, mivel eredményei alapjan igaz, hogy a `NORMAL Recall` gyengébb, viszont stabilabban teljesít a metrikák alapján a többi architektúránál.
+Az előző kísérletek eredményei alapján a VGG16 architektúrát választottam
+a további fejlesztések alapjául, mivel metrikái alapján stabilabban teljesít
+a többi architektúránál. Ebben a kísérletben CLAHE (Contrast Limited Adaptive
+Histogram Equalization) előfeldolgozást alkalmaztam, amely a röntgenfelvételek
+eltérő kontrasztját és fényerejét kiegyenlíti.
 
-Ebben a kísérletben alkalmaztam a már meglévő VGG16 hálóra egy `CLAHE` előfeldolgozást, amely stabilizálja a röntgenfelvételeken eltérő kontrasztot, fényerőt, ezzel segítve, hogy a háló ne csak a saját dataset-jén teljesítsen jól, hanem idegen képeken is jobban meg tudja állni a helyét. Az eddigi tanított hálózatokat leteszteltem egy webappon belül. Real time futattam őket idegen képeken, és szinte mindegyik elhasalt ezen a teszten. Az elkövetkezendő kísérletekben erre fogok több hangsúlyt fektetni, hogy az adott háló ne csak a saját adathalmazán, de idegen képeken is jól működjön.
+A motiváció: az eddigi modellek webappon, valós idejű tesztelés során idegen
+képeken gyenge eredményeket mutattak. A CLAHE célja, hogy a bemeneti kép
+kontrasztját a háló által már ismert tartományba hozza, ezzel javítva az
+idegen képeken való teljesítményt.
 
-A `CLAHE` előfeldolgozás javított ezen a problémán de nem oldotta meg. A háló most is képes teljesen egyértelmű képet rosszul besorolni, viszont nem annyiszor mint eddig. Ezt a hálót az eddigiekhez képest több ideig is tanítottam(33 epoch).
+### Eredmények
 
-
-### Kvantitatív eredmények (saját teszthalmazon)
-
-- **Accuracy:** 0.9183
+- **Accuracy:** 91.83%
 - **ROC–AUC:** 0.9756
-- **PNEUMONIA recall:** 0.9744
-- **NORMAL recall:** 0.8248
+- **PNEUMONIA recall:** 97.44%
+- **NORMAL recall:** 82.48%
 
-
-Az eredményekből látszik, hogy a modell továbbra is nagyon jól felismeri a beteg eseteket.
-A normal recall alacsonyabb, viszont javulás van a legutóbbi verzióhoz képest.
+A CLAHE előfeldolgozás mérhető javulást hozott az idegen képeken való
+teljesítményben, azonban a domain shift problémát nem oldotta meg teljesen.
 
 ---
 
-## 📈 Modellek összehasonlítása
+## 9. Transfer Learning – VGG16 + U-Net szegmentáció + CLAHE
 
-| Modell         | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
-|----------------|----------|---------|---------------|------------------|
-| ResNet50       | 86.54%   | 0.943   | 72.65%        | 94.87%           |
-| DenseNet121    | 89.74%   | 0.965   | 84.19%        | 93.08%           |
-| EfficientNetB0 | 87.34%   | 0.952   | 76.07%        | 94.10%           |
-|**MobileNetV2** | 90.38% | 0.964 |**89.32%**     |  91.03%       |
-| VGG16(0.5 threshold) | 88.62% | 0.973 | 71.79% | **98.2%** |
-| VGG16(optimal threshold) | **90.54%** | **0.975** | 78.63% | 97.69% |
+**Notebook:** `notebooks/09-transfer-learning-vgg16-unet-clahe.ipynb`
+
+A domain shift probléma kezelésére ebben a kísérletben egy U-Net alapú
+tüdőszegmentációt alkalmaztam preprocessing lépésként. Az elképzelés az volt,
+hogy ha a háló csak a tüdő területét látja, a háttér és a képen lévő egyéb
+elemek (feliratok, kábelek, műtermékek) nem zavarják a döntéshozatalt.
+
+A szegmentációs modell egy nyilvánosan elérhető, előtanított U-Net volt
+(`unet_lung_seg.hdf5`). A pipeline: U-Net maszk → masked crop → CLAHE → VGG16.
+
+### A megközelítés korlátai
+
+Az U-Net modell azonban más adatkészleten tanult, mint a saját felvételek,
+ezért rajta is megjelent a domain shift probléma: az általa generált maszkok
+több képen pontatlanok vagy tévesek voltak, különösen a dataset gyermekbetegeknél
+készült felvételein, ahol a tüdő formája és mérete eltér a felnőtt referenciaképektől.
+
+### Eredmények
+
+- **Accuracy:** 91.51%
+- **ROC–AUC:** 0.9682
+- **PNEUMONIA recall:** 94.62%
+- **NORMAL recall:** 86.32%
+
+A metrikák nem javultak érdemben a CLAHE-only verzióhoz képest, a rossz
+maszkok miatt a modell helyenként irreleváns képrészleteken tanult.
+Ez a kísérlet fontos tanulságként szerepel a dolgozatban: egy szofisztikált
+preprocessing pipeline nem feltétlenül jobb, ha maga a pipeline is domain
+shift-re érzékeny.
+
+---
+
+## 10. Transfer Learning – VGG16 + aszimmetrikus crop + CLAHE
+
+**Notebook:** `notebooks/10-transfer-learning-vgg16-crop-clahe.ipynb`
+
+Az U-Net alapú megközelítés tapasztalatai alapján egy egyszerűbb, de
+robusztusabb preprocessing stratégiát alkalmaztam: aszimmetrikus center crop,
+amelyet CLAHE követ. A crop arányok a tüdőröntgenek tipikus elrendezéséhez
+igazodnak (felülről több margó kerül levágásra a váll és nyak területe miatt).
+
+A megközelítés előnye, hogy determinisztikus, nem tartalmaz ML komponenst,
+így nem tud domain shift-re érzékennyé válni. A crop paraméterek vizuális
+sanity check alapján kerültek beállításra.
+
+Crop paraméterek: top=15%, bottom=5%, left=5%, right=5%.
+
+### Eredmények
+
+- **Accuracy:** 91.67%
+- **ROC–AUC:** 0.9742
+- **PNEUMONIA recall:** 96.67%
+- **NORMAL recall:** 83.33%
+
+A metrikák a CLAHE-only verzióval összevethetők, azonban ez a megoldás
+lényegesen megbízhatóbb idegen képeken, mivel a preprocessing nem tartalmaz
+adatfüggő komponenst.
+
+---
+
+## Modellek összehasonlítása
+
+| Modell | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
+|--------|----------|---------|---------------|------------------|
+| Baseline CNN | – | – | – | – |
+| ResNet50 | 86.54% | 0.943 | 72.65% | 94.87% |
+| DenseNet121 | 89.74% | 0.965 | 84.19% | 93.08% |
+| EfficientNetB0 | 87.34% | 0.952 | 76.07% | 94.10% |
+| MobileNetV2 | 90.38% | 0.964 | 89.32% | 91.03% |
+| VGG16 (0.5 threshold) | 88.62% | 0.973 | 71.79% | 98.72% |
+| VGG16 (opt. threshold) | 90.54% | 0.975 | 78.63% | 97.69% |
+| VGG16 + CLAHE | 91.83% | 0.9756 | 82.48% | 97.44% |
+| VGG16 + U-Net + CLAHE | 91.51% | 0.9682 | 86.32% | 94.62% |
+| VGG16 + crop + CLAHE | 91.67% | 0.9742 | 83.33% | 96.67% |
 
 ### Értelmezés
-- A **MobileNetV2** a legmagasabb **overall accuracy** értéket érte el, miközben alacsony számítási igényű architektúra.
-- A **DenseNet121** továbbra is az egyik legkiegyensúlyozottabb modell, különösen a ROC–AUC érték tekintetében.
-- A **ResNet50** és **EfficientNetB0** modellek erőssége a pneumonia esetek magas felismerési aránya, azonban a NORMAL osztályban több tévesztést mutatnak.
-- A MobileNetV2 eredményei azt jelzik, hogy **könnyű, erőforrás-hatékony modellek is képesek klinikailag releváns teljesítményt nyújtani**.
-- A **VGG16** érte el a legmagasabb ROC–AUC értéket, ami a legjobb osztályszeparációra utal. Az alapértelmezett 0.5-ös threshold mellett a modell erősen pneumonia-orientált döntést hozott. A döntési küszöb optimalizálása jelentősen javította a NORMAL osztály felismerését, miközben a pneumonia detektálási arány klinikailag releváns tartományban maradt. A **MobileNetV2** továbbra is a legkiegyensúlyozottabb és paraméter-hatékony megoldás. A kísérletek eredményei azt mutatják, hogy a modell viselkedését nemcsak az architektúra, hanem a döntési stratégia is jelentősen befolyásolja.
+
+A modellek fejlődési íve jól látható a táblázatból. A Transfer Learning alapú
+architektúrák mindegyike érdemben felülmúlja a baseline CNN-t. A MobileNetV2
+kiemelkedik kiegyensúlyozottságával és alacsony számítási igényével. A VGG16
+variánsok a legmagasabb ROC–AUC értékeket mutatják, ami erős osztályszeparációra
+utal. A CLAHE és crop alapú előfeldolgozás nem csak a teszthalmazon mért
+metrikákat javította, hanem érdemben növelte a modellek robusztusságát
+idegen, valós körülmények között készült felvételeken is.
+
+Az U-Net alapú kísérlet rávilágított arra, hogy egy összetettebb preprocessing
+pipeline önmagában nem garantál jobb eredményt, ha maga a pipeline is
+adatfüggő és domain shift-re érzékeny komponenst tartalmaz.
 
 ---
 
-## 🔍 Kvalitatív kiértékelés és magyarázhatóság
+## Kvalitatív kiértékelés és magyarázhatóság
 
-A kvantitatív metrikák mellett mindhárom Transfer Learning modell esetében  
-**vizuális és kvalitatív elemzés is készült** a teszt halmaz képein.
-
-### Grad-CAM (magyarázhatóság)
-A **Grad-CAM (Gradient-weighted Class Activation Mapping)** módszer segítségével  
-vizualizáltam, hogy a modellek döntéshozatala során mely képrégiók járultak hozzá  
-leginkább az osztályozási eredményekhez.
+A kvantitatív metrikák mellett minden Transfer Learning modell esetében
+vizuális kiértékelés is készült Grad-CAM (Gradient-weighted Class Activation
+Mapping) segítségével, amely megmutatja, hogy a modell döntéshozatala során
+mely képrégiók járultak hozzá leginkább az osztályozási eredményhez.
 
 A Grad-CAM overlay képek az alábbi mappákban találhatók:
+
 - `results/figures/02_transfer_learning_resnet/gradcam_resnet50/`
 - `results/figures/03_transfer_learning_densenet/gradcam_densenet121/`
 - `results/figures/04_transfer_learning_efficientnetb0/gradcam_efficientnetb0/`
 - `results/figures/05_transfer_learning_mobilenetv2/gradcam_mobilenetv2/`
-- `results/figures/06_transfer_learning_mobilenetv2/gradcam_vgg16/`
-- `results/figures/07_transfer_learning_mobilenetv2/gradcam_modified_vgg16/`
-- `results/figures/08_transfer_learning_mobilenetv2/gradcam_vgg16_clahe/`
-
-A vizualizációk segítik a modellek döntéseinek értelmezését,  
-valamint rávilágítanak az esetleges tévesztések mögötti mintázatokra.
+- `results/figures/06_transfer_learning_vgg16/gradcam_vgg16/`
+- `results/figures/07_transfer_learning_vgg16_threshold/gradcam_vgg16_threshold/`
+- `results/figures/08_transfer_learning_vgg16_clahe/gradcam_vgg16_clahe/`
+- `results/figures/09_transfer_learning_vgg16_unet_clahe/gradcam_vgg16_unet_clahe/`
+- `results/figures/10_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_crop_clahe/`
