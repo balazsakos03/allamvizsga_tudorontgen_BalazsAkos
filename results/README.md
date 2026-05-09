@@ -273,6 +273,53 @@ idegen forrásból származó felvételekre.
 
 ---
 
+## 12. Cross-Dataset kiértékelés
+
+**Notebook:** `notebooks/12-cross-dataset-evaluation.ipynb`
+
+A 10-es és 11-es kísérletben betanított két modell keresztbe tesztelése
+egymás teszthalmazán. A cél annak mérése, hogy a modellek mennyire
+generalizálnak idegen forrásból származó felvételekre.
+
+A négy kiértékelt kombináció:
+
+| Modell | Tesztelve | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
+|--------|-----------|----------|---------|---------------|------------------|
+| VGG16 (Kaggle) | Kaggle (saját) | 91.67% | 0.9742 | 83.33% | 96.67% |
+| VGG16 (Kaggle) | COVID Radiography (idegen) | 56.76% | 0.8360 | 51.76% | 94.78% |
+| VGG16 (COVID Radiography) | COVID Radiography (saját) | 98.61% | 0.9987 | 99.41% | 92.54% |
+| VGG16 (COVID Radiography) | Kaggle (idegen) | 84.29% | 0.9685 | 58.97% | 99.49% |
+
+### Megfigyelések
+
+Mindkét modell jelentős teljesítménycsökkenést mutat idegen dataseten,
+ami a domain shift probléma jelenlétét igazolja. A két modell azonban
+eltérő mértékben generalizál:
+
+A Kaggle-n tanított modell idegen dataseten 91.67%-ról 56.76%-ra esik
+vissza — ez drasztikus csökkenés. A modell szinte mindent pneumoniának
+minősít (PNEUMONIA recall: 94.78%), miközben a normál esetek felét
+tévesen betegnek ítéli (NORMAL recall: 51.76%).
+
+A COVID Radiography-n tanított modell robusztusabbnak bizonyul: idegen
+dataseten 98.61%-ról 84.29%-ra esik vissza, és a ROC–AUC értéke
+idegen halmazon is magas marad (0.9685). A gyengesége itt is a NORMAL
+osztály alacsony recall értéke (58.97%), azonban ez a viselkedés
+részben a tanítóhalmaz erős osztályegyensúlytalanságából ered
+(10,192 Normal vs. 1,345 Pneumonia).
+
+Fontos megfigyelés, hogy mindkét modell NORMAL precision értéke idegen
+dataseten is magas marad (Kaggle modell: 98.69%, COVID modell: 98.57%),
+ami azt jelenti: amit normálnak ítél, azt nagy biztonsággal helyesen
+ítéli — a probléma a téves pozitív pneumonia predikciók magas száma.
+
+A cross-dataset ROC–AUC értékek (0.836 és 0.969) azt mutatják, hogy
+az osztályszeparációs képesség megmarad idegen képeken is — a döntési
+küszöb optimalizálásával mindkét modell teljesítménye javítható lenne
+az idegen dataseten is.
+
+---
+
 ## Modellek összehasonlítása
 
 | Modell | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
@@ -309,6 +356,12 @@ kerül bemutatásra.
 Az U-Net alapú kísérlet rávilágított arra, hogy egy összetettebb preprocessing
 pipeline önmagában nem garantál jobb eredményt, ha maga a pipeline is
 adatfüggő és domain shift-re érzékeny komponenst tartalmaz.
+
+A cross-dataset kiértékelés megerősítette, hogy a saját teszthalmazon
+mért teljesítmény nem jelzi előre megbízhatóan az idegen képeken való
+viselkedést. A COVID Radiography-n tanított modell bizonyult
+robusztusabbnak, azonban mindkét modell esetén a domain shift hatása
+egyértelműen kimutatható.
 
 ---
 
