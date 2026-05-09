@@ -1,0 +1,190 @@
+[
+  {
+    "model": "VGG16 (Kaggle)",
+    "tested_on": "Kaggle Chest X-Ray (saj\u00e1t teszthalmaz)",
+    "accuracy": 0.9166666666666666,
+    "roc_auc": 0.9741617357001973,
+    "normal_recall": 0.8333333333333334,
+    "pneumonia_recall": 0.9666666666666667,
+    "normal_precision": 0.9375,
+    "pneumonia_precision": 0.90625,
+    "confusion_matrix": [
+      [
+        195,
+        39
+      ],
+      [
+        13,
+        377
+      ]
+    ],
+    "classification_report": {
+      "NORMAL": {
+        "precision": 0.9375,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.8823529411764706,
+        "support": 234.0
+      },
+      "PNEUMONIA": {
+        "precision": 0.90625,
+        "recall": 0.9666666666666667,
+        "f1-score": 0.9354838709677419,
+        "support": 390.0
+      },
+      "accuracy": 0.9166666666666666,
+      "macro avg": {
+        "precision": 0.921875,
+        "recall": 0.9,
+        "f1-score": 0.9089184060721063,
+        "support": 624.0
+      },
+      "weighted avg": {
+        "precision": 0.91796875,
+        "recall": 0.9166666666666666,
+        "f1-score": 0.915559772296015,
+        "support": 624.0
+      }
+    }
+  },
+  {
+    "model": "VGG16 (Kaggle)",
+    "tested_on": "COVID-19 Radiography (idegen dataset)",
+    "accuracy": 0.5675909878682842,
+    "roc_auc": 0.8359672227099796,
+    "normal_recall": 0.5176470588235295,
+    "pneumonia_recall": 0.9477611940298507,
+    "normal_precision": 0.9869158878504672,
+    "pneumonia_precision": 0.20516962843295639,
+    "confusion_matrix": [
+      [
+        528,
+        492
+      ],
+      [
+        7,
+        127
+      ]
+    ],
+    "classification_report": {
+      "NORMAL": {
+        "precision": 0.9869158878504672,
+        "recall": 0.5176470588235295,
+        "f1-score": 0.6790996784565917,
+        "support": 1020.0
+      },
+      "PNEUMONIA": {
+        "precision": 0.20516962843295639,
+        "recall": 0.9477611940298507,
+        "f1-score": 0.33731739707835323,
+        "support": 134.0
+      },
+      "accuracy": 0.5675909878682842,
+      "macro avg": {
+        "precision": 0.5960427581417118,
+        "recall": 0.73270412642669,
+        "f1-score": 0.5082085377674724,
+        "support": 1154.0
+      },
+      "weighted avg": {
+        "precision": 0.8961411922161981,
+        "recall": 0.5675909878682842,
+        "f1-score": 0.6394126544490666,
+        "support": 1154.0
+      }
+    }
+  },
+  {
+    "model": "VGG16 (COVID Radiography)",
+    "tested_on": "COVID-19 Radiography (saj\u00e1t teszthalmaz)",
+    "accuracy": 0.9861351819757366,
+    "roc_auc": 0.9987196371085748,
+    "normal_recall": 0.9941176470588236,
+    "pneumonia_recall": 0.9253731343283582,
+    "normal_precision": 0.990234375,
+    "pneumonia_precision": 0.9538461538461539,
+    "confusion_matrix": [
+      [
+        1014,
+        6
+      ],
+      [
+        10,
+        124
+      ]
+    ],
+    "classification_report": {
+      "NORMAL": {
+        "precision": 0.990234375,
+        "recall": 0.9941176470588236,
+        "f1-score": 0.9921722113502935,
+        "support": 1020.0
+      },
+      "PNEUMONIA": {
+        "precision": 0.9538461538461539,
+        "recall": 0.9253731343283582,
+        "f1-score": 0.9393939393939394,
+        "support": 134.0
+      },
+      "accuracy": 0.9861351819757366,
+      "macro avg": {
+        "precision": 0.972040264423077,
+        "recall": 0.9597453906935909,
+        "f1-score": 0.9657830753721165,
+        "support": 1154.0
+      },
+      "weighted avg": {
+        "precision": 0.9860090529596054,
+        "recall": 0.9861351819757366,
+        "f1-score": 0.9860437118336979,
+        "support": 1154.0
+      }
+    }
+  },
+  {
+    "model": "VGG16 (COVID Radiography)",
+    "tested_on": "Kaggle Chest X-Ray (idegen dataset)",
+    "accuracy": 0.842948717948718,
+    "roc_auc": 0.9684746877054569,
+    "normal_recall": 0.5897435897435898,
+    "pneumonia_recall": 0.9948717948717949,
+    "normal_precision": 0.9857142857142858,
+    "pneumonia_precision": 0.8016528925619835,
+    "confusion_matrix": [
+      [
+        138,
+        96
+      ],
+      [
+        2,
+        388
+      ]
+    ],
+    "classification_report": {
+      "NORMAL": {
+        "precision": 0.9857142857142858,
+        "recall": 0.5897435897435898,
+        "f1-score": 0.7379679144385026,
+        "support": 234.0
+      },
+      "PNEUMONIA": {
+        "precision": 0.8016528925619835,
+        "recall": 0.9948717948717949,
+        "f1-score": 0.8878718535469108,
+        "support": 390.0
+      },
+      "accuracy": 0.842948717948718,
+      "macro avg": {
+        "precision": 0.8936835891381346,
+        "recall": 0.7923076923076924,
+        "f1-score": 0.8129198839927068,
+        "support": 624.0
+      },
+      "weighted avg": {
+        "precision": 0.8706759149940968,
+        "recall": 0.842948717948718,
+        "f1-score": 0.8316578763812578,
+        "support": 624.0
+      }
+    }
+  }
+]
