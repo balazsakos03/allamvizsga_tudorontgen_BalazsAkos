@@ -52,3 +52,13 @@ env/
 # =========================
 .DS_Store
 Thumbs.db
+
+# =========================
+# Datasets
+# =========================
+datasets/
+chest_xray/
+covid_radiography/
+combined_dataset/
+data/raw/
+*.zip
