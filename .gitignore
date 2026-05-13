@@ -56,7 +56,7 @@ Thumbs.db
 # =========================
 # Datasets
 # =========================
-datasets/
+#datasets/
 chest_xray/
 covid_radiography/
 combined_dataset/
