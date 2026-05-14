@@ -320,6 +320,42 @@ az idegen dataseten is.
 
 ---
 
+## 13. Transfer Learning – VGG16 + crop + CLAHE (Kombinált adatkészlet)
+
+**Notebook:** `notebooks/13-transfer-learning-vgg16-combined-dataset.ipynb`
+
+A cross-dataset kiértékelés tanulságai alapján a következő lépés két
+különböző forrásból származó adatkészlet összevonása volt. A kombinált
+dataset a Kaggle Chest X-Ray és a COVID-19 Radiography Database képeiből
+áll össze, lokálisan a `datasets/merge_datasets.py` szkript segítségével
+kerültek összeállításra.
+
+Az összevonás során undersampling kerül alkalmazásra: a Normal osztály
+a Pneumonia osztály méretére lett csökkentve, így a tanítóhalmaz teljesen
+kiegyensúlyozott (4,494 Normal + 4,494 Pneumonia a train halmazban).
+A dataset összesen 11,236 képet tartalmaz, train/val/test arányban 80/10/10
+felosztással.
+
+Az architektúra és a preprocessing azonos a 10-es kísérlettel
+(VGG16 + aszimmetrikus crop + CLAHE), kétfázisú tanítással.
+
+### Eredmények
+
+- **Accuracy:** 99.11%
+- **ROC–AUC:** 0.9984
+- **PNEUMONIA recall:** 99.47%
+- **NORMAL recall:** 98.75%
+
+Ez az első kísérlet ahol mindkét osztály recall értéke 98% felett van
+egyidejűleg. A confusion matrix alapján 562 Normal képből mindössze 7,
+562 Pneumonia képből mindössze 3 került tévesen besorolásra. A kombinált
+dataset tehát egyszerre kezeli a class imbalance és a domain shift
+problémát, mivel a tanítóhalmaz különböző forrásokból, különböző
+készülékekkel és különböző betegcsoportokon készült felvételeket egyaránt
+tartalmaz.
+
+---
+
 ## Modellek összehasonlítása
 
 | Modell | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
@@ -335,6 +371,7 @@ az idegen dataseten is.
 | VGG16 + U-Net + CLAHE | 91.51% | 0.9682 | 86.32% | 94.62% |
 | VGG16 + crop + CLAHE (Kaggle) | 91.67% | 0.9742 | 83.33% | 96.67% |
 | VGG16 + crop + CLAHE (COVID Radiography) | 98.61% | 0.9987 | 99.41% | 92.54% |
+| VGG16 + crop + CLAHE (Combined) | **99.11%** | **0.9984** | **98.75%** | **99.47%** |
 
 ### Értelmezés
 
@@ -363,6 +400,12 @@ viselkedést. A COVID Radiography-n tanított modell bizonyult
 robusztusabbnak, azonban mindkét modell esetén a domain shift hatása
 egyértelműen kimutatható.
 
+A kombinált adatkészleten tanított modell érte el a projekt legjobb
+eredményeit: 99.11% accuracy és 0.9984 ROC–AUC értékkel, miközben
+mindkét osztályban 98% feletti recall értéket produkált. Ez megerősíti,
+hogy a domain shift probléma leghatékonyabb kezelése nem a preprocessing
+bonyolításában, hanem a tanítóhalmaz diverzitásának növelésében rejlik.
+
 ---
 
 ## Kvalitatív kiértékelés és magyarázhatóság
@@ -384,3 +427,4 @@ A Grad-CAM overlay képek az alábbi mappákban találhatók:
 - `results/figures/09_transfer_learning_vgg16_unet_clahe/gradcam_vgg16_unet_clahe/`
 - `results/figures/10_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_crop_clahe/`
 - `results/figures/11_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_covid/`
+- `results/figures/13_transfer_learning_vgg16_combined/gradcam_vgg16_combined/`
