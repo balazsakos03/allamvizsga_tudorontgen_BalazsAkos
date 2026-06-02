@@ -402,6 +402,7 @@ való alkalmazhatóságot tesz lehetővé.
 | VGG16 + crop + CLAHE (Kaggle) | 91.67% | 0.9742 | 83.33% | 96.67% |
 | VGG16 + crop + CLAHE (COVID Radiography) | 98.61% | 0.9987 | 99.41% | 92.54% |
 | VGG16 + crop + CLAHE (Combined) | **99.11%** | **0.9984** | **98.75%** | **99.47%** |
+| MobileNetV2 + crop + CLAHE (Combined) | 97.33% | 0.9969 | 96.80% | 97.86% |
 
 ### Értelmezés
 
