@@ -437,6 +437,12 @@ mindkét osztályban 98% feletti recall értéket produkált. Ez megerősíti,
 hogy a domain shift probléma leghatékonyabb kezelése nem a preprocessing
 bonyolításában, hanem a tanítóhalmaz diverzitásának növelésében rejlik.
 
+A MobileNetV2 kombinált dataseten elért eredményei (~3.4M paraméter,
+97.33% accuracy, 0.9969 ROC–AUC) azt mutatják, hogy a VGG16-hoz képest
+töredéknyi számítási igénnyel is megközelítőleg azonos teljesítmény érhető
+el. Ez különösen releváns mobileszközökön vagy erőforrás-korlátozott
+környezetekben való alkalmazás szempontjából.
+
 ---
 
 ## Kvalitatív kiértékelés és magyarázhatóság
@@ -459,3 +465,4 @@ A Grad-CAM overlay képek az alábbi mappákban találhatók:
 - `results/figures/10_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_crop_clahe/`
 - `results/figures/11_transfer_learning_vgg16_crop_clahe/gradcam_vgg16_covid/`
 - `results/figures/13_transfer_learning_vgg16_combined/gradcam_vgg16_combined/`
+- `results/figures/14_transfer_learning_mobilenetv2_combined/gradcam_mobilenetv2_combined/`
