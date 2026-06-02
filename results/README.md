@@ -356,6 +356,36 @@ tartalmaz.
 
 ---
 
+## 14. Transfer Learning – MobileNetV2 + crop + CLAHE (Kombinált adatkészlet)
+
+**Notebook:** `notebooks/14-transfer-learning-mobilenetv2-combined-dataset.ipynb`
+
+Ez a kísérlet a 13-as notebookkal azonos preprocessing stratégiát és
+adatkészletet alkalmaz, azonban a VGG16 architektúra helyett MobileNetV2-t
+használ. A MobileNetV2 depthwise separable konvolúciókat alkalmaz, amelyek
+jelentősen csökkentik a paraméterek számát (~3.4M vs. VGG16 ~138M) miközben
+versenyképes teljesítményt nyújtanak.
+
+A fine-tuning fázisban az utolsó 30 réteg kerül feloldásra. A classifier
+fej kisebb mint a VGG16 esetén (256 neuron, 0.4 Dropout), mivel a
+MobileNetV2 architektúra önmaga is erősen regularizált.
+
+### Eredmények
+
+- **Accuracy:** 97.33%
+- **ROC–AUC:** 0.9969
+- **PNEUMONIA recall:** 97.86%
+- **NORMAL recall:** 96.80%
+
+A MobileNetV2 mindkét osztályban 96% feletti recall értéket ér el,
+és a VGG16 combined verziójához képest mindössze 1.78% accuracy
+különbséggel teljesít — miközben paramétereinek száma töredéke.
+Ez a kísérlet igazolja, hogy erőforrás-hatékony architektúrával is
+elérhető klinikailag releváns teljesítmény, ami mobileszközökön
+való alkalmazhatóságot tesz lehetővé.
+
+---
+
 ## Modellek összehasonlítása
 
 | Modell | Accuracy | ROC–AUC | NORMAL Recall | PNEUMONIA Recall |
