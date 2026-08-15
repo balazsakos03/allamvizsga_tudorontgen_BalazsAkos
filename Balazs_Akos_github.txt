@@ -1,0 +1,16 @@
+Az államvizsga projektem forráskódjai megtalálhatóak az alábbi GitHub linken:
+
+https://github.com/balazsakos03/allamvizsga_tudorontgen_BalazsAkos
+
+
+
+A betanított modell fájlok az alábbi HuggingFace model repository-ban találhatóak:
+
+https://huggingface.co/balazsakos03/ChestXRay-Models/tree/main
+
+
+
+A használt adatkészletek, valamint az összevont adatkészlet megtalálható az alábbi 
+HuggingFace dataset repository-ban:
+
+https://huggingface.co/datasets/balazsakos03/ChestXRay-Datasets/tree/main
